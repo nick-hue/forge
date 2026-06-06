@@ -13,8 +13,8 @@
 |---|------|--------|
 | 1 | Add runtime deps: `fastapi`, `uvicorn`, `redis`, `celery`/`rq`, `psycopg`, `pillow` | ✅ Done |
 | 2 | Start local **PostgreSQL** + **Redis** (e.g. one `docker run` each) | ✅ Done |
-| 3 | `api/models.py` — Pydantic shape of a "job" (id, image URL, status, result links) | ⬜ To do |
-| 4 | `api/db.py` — connect to Postgres, create `jobs` table, insert/update/read functions | ⬜ To do |
+| 3 | `api/models.py` — Pydantic shape of a "job" (id, image URL, status, result links) | ✅ Done |
+| 4 | `api/db.py` — connect to Postgres, create `jobs` table, insert/update/read functions | ✅ Done |
 | 5 | `api/queue.py` — push a new job onto Redis (or define the Celery/RQ task) | ⬜ To do |
 | 6 | `api/main.py` — FastAPI `POST /jobs` (enqueue, return `job_id`) + `GET /jobs/{id}` | ⬜ To do |
 | 7 | `worker/thumbnails.py` — Pillow logic producing 3 thumbnail sizes | ⬜ To do |
