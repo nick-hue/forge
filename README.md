@@ -1,0 +1,4 @@
+# Forge
+
+## Info
+This is an education project about DevOps comfort. Using python, fastapi doing http requests do handle jobs on the server side from workers that will be deployed via Kubernetes.
