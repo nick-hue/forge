@@ -17,8 +17,8 @@
 | 4 | `api/db.py` — connect to Postgres, create `jobs` table, insert/update/read functions | ✅ Done |
 | 5 | `api/queue.py` — push a new job onto Redis (or define the Celery/RQ task) | ✅ Done |
 | 6 | `api/main.py` — FastAPI `POST /jobs` (enqueue, return `job_id`) + `GET /jobs/{id}` | ✅ Done |
-| 7 | `worker/thumbnails.py` — Pillow logic producing 3 thumbnail sizes | ⬜ To do |
-| 8 | `worker/worker.py` — pull job, download image, thumbnail, store, update status | ⬜ To do |
+| 7 | `worker/thumbnails.py` — Pillow logic producing 3 thumbnail sizes | ✅ Done |
+| 8 | `worker/worker.py` — pull job, download image, thumbnail, store, update status | ✅ Done |
 | 9 | Run the API by hand: `uvicorn api.main:app --reload` | ⬜ To do |
 | 10 | Run the worker by hand in a separate terminal | ⬜ To do |
 | 11 | **End-to-end test:** POST an image URL → poll `GET /jobs/{id}` → confirm thumbnails | ⬜ To do |

@@ -6,7 +6,7 @@ from PIL import Image
 SIZES = {"small": (128, 128), "medium": (256, 256), "large": (512, 512)}
 
 
-def make_thumbnails(image_bytes: bytes, output_dir: Path) -> list[Path]:
+def make_thumbnails(image_bytes: bytes, output_dir: Path) -> list[str]:
 
     if not output_dir.exists():
         raise FileNotFoundError(f"output dir does not exist: {output_dir}")
@@ -25,4 +25,4 @@ def make_thumbnails(image_bytes: bytes, output_dir: Path) -> list[Path]:
 
         result_paths.append(tmp_path)
 
-    return result_paths
+    return [str(path) for path in result_paths]

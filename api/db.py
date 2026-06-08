@@ -4,9 +4,9 @@ import psycopg
 
 from api.models import Job, Status
 
-
+DSN = "host=127.0.0.1 dbname=forge user=postgres password=1234"
 def create_table():
-    with psycopg.connect("dbname=test user=postgres") as conn:
+    with psycopg.connect(DSN) as conn:
         with conn.cursor() as cur:
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS jobs(
@@ -21,7 +21,7 @@ def create_table():
 
 
 def insert_job(job: Job):
-    with psycopg.connect("dbname=test user=postgres") as conn:
+    with psycopg.connect(DSN) as conn:
         with conn.cursor() as cur:
             cur.execute(
                 "INSERT INTO jobs (id, image_url, status, result_urls, created_at) "
@@ -31,7 +31,7 @@ def insert_job(job: Job):
 
 
 def update_job(job_id: uuid.UUID, status: Status, result_urls: list[str]):
-    with psycopg.connect("dbname=test user=postgres") as conn:
+    with psycopg.connect(DSN) as conn:
         with conn.cursor() as cur:
             cur.execute(
                 "UPDATE jobs SET status = %s, result_urls = %s WHERE id = %s",
@@ -40,7 +40,7 @@ def update_job(job_id: uuid.UUID, status: Status, result_urls: list[str]):
 
 
 def get_job(job_id: uuid.UUID):
-    with psycopg.connect("dbname=test user=postgres") as conn:
+    with psycopg.connect(DSN) as conn:
         with conn.cursor() as cur:
             cur.execute("SELECT * FROM jobs WHERE id = %s", (job_id,))
             row = cur.fetchone()
