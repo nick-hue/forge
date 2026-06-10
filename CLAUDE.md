@@ -52,6 +52,16 @@ This project standardizes on **uv** (package/env manager) and **ruff** (lint + f
 - `ruff check .` / `ruff format .` — lint / format. Run before committing.
 - `pre-commit run --all-files` — run the full pre-commit suite manually; it also runs automatically on `git commit`.
 
+### Running the full stack locally (Phase 1, by hand)
+
+The queue is committed to **RQ** (not Celery). The system is three processes plus two stateful services, all started by hand — run every command from the **repo root** (the `api.*` / `worker.*` imports only resolve there):
+
+- **Postgres** + **Redis** — must be running first (e.g. one `docker run`/`docker start` each). The API/worker connect on import with **hardcoded** settings: Postgres DSN `host=127.0.0.1 dbname=forge user=postgres password=1234` (`api/db.py`), Redis at the default `localhost:6379` (`api/queue.py`).
+- **API:** `uv run uvicorn api.main:app --reload` — `POST /jobs` (202 + `job_id`), `GET /jobs/{id}`. Docs at `http://localhost:8000/docs`.
+- **Worker:** `uv run rq worker` — pulls the `default` queue and runs `worker.worker.process_job`.
+- **Outputs:** thumbnails are written to the local filesystem at `data/<job_id>/{small,medium,large}.jpg` (no object storage yet); `result_urls` holds those paths.
+- **Known gotcha:** `create_table()` in `api/db.py` is not called on startup, so a fresh Postgres has no `jobs` table — create it once before the first `POST`.
+
 ## Conventions
 
 - **Conventional Commits** — commit messages use `feat:`, `fix:`, `chore:`, etc. (the roadmap relies on this for later automated versioning). Match this format.
