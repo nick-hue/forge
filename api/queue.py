@@ -1,9 +1,11 @@
+import os
+
 from redis import Redis
 from rq import Queue
 
 from api.models import Job
 
-red = Redis()
+red = Redis.from_url(os.environ.get("REDIS_URL", "redis://localhost:6379"))
 q = Queue(connection=red)
 
 

@@ -1,10 +1,15 @@
+import os
 import uuid
 
 import psycopg
 
 from api.models import Job, Status
 
-DSN = "host=127.0.0.1 dbname=forge user=postgres password=1234"
+DSN = os.environ.get(
+    "DATABASE_URL", "host=127.0.0.1 dbname=forge user=postgres password=1234"
+)
+
+
 def create_table():
     with psycopg.connect(DSN) as conn:
         with conn.cursor() as cur:
@@ -45,3 +50,4 @@ def get_job(job_id: uuid.UUID):
             cur.execute("SELECT * FROM jobs WHERE id = %s", (job_id,))
             row = cur.fetchone()
     return row
+

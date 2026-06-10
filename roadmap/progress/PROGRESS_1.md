@@ -22,8 +22,8 @@
 | 9 | Run the API by hand: `uvicorn api.main:app --reload` | ✅ Done |
 | 10 | Run the worker by hand in a separate terminal | ✅ Done |
 | 11 | **End-to-end test:** POST an image URL → poll `GET /jobs/{id}` → confirm thumbnails | ✅ Done |
-| 12 | Write a **"friction list"** in the README — everything annoying about manual setup | ⬜ To do |
-| 13 | Commit with conventional commits (e.g. `feat: add job API and worker`) | ⬜ To do |
+| 12 | Write a **"friction list"** in the README — everything annoying about manual setup | ✅ Done |
+| 13 | Commit with conventional commits (e.g. `feat: add job API and worker`) | ✅ Done |
 
 **Done when:** you can submit an image, watch a worker process it in another terminal, retrieve finished thumbnails — and you have a written list of what was painful about doing it by hand.
 

@@ -25,7 +25,7 @@ def process_job(job_id: str):
 
         result_paths = make_thumbnails(
             image_bytes=response.content, output_dir=output_dir
-            )
+        )
 
         update_job(job_id=jid, status=Status.DONE, result_urls=result_paths)
     except Exception as e:

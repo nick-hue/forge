@@ -1,12 +1,19 @@
 import uuid
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException
 
-from api.db import get_job, insert_job
+from api.db import create_table, get_job, insert_job
 from api.models import Job, JobCreate
 from api.queue import enqueue_job
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    create_table()
+    yield
+
+app = FastAPI(lifespan=lifespan)
 
 
 @app.post("/jobs", status_code=202)
