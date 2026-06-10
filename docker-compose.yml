@@ -1,0 +1,56 @@
+services:
+    postgres:
+      image: postgres:16
+      environment:
+        POSTGRES_DB: forge
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: "1234"
+      volumes:
+        - pgdata:/var/lib/postgresql/data
+      healthcheck:
+        test: ["CMD-SHELL", "pg_isready -U postgres -d forge"]
+        interval: 5s
+        timeout: 5s
+        retries: 5
+
+    redis:
+      image: redis:7
+      healthcheck:
+        test: ["CMD", "redis-cli", "ping"]
+        interval: 5s
+        timeout: 5s
+        retries: 5
+
+    api:
+      build:
+        context: .
+        dockerfile: api/Dockerfile
+      ports:
+        - "8000:8000"
+      environment:
+        DATABASE_URL: postgresql://postgres:1234@postgres:5432/forge
+        REDIS_URL: redis://redis:6379
+      depends_on:
+        postgres:
+          condition: service_healthy
+        redis:
+          condition: service_healthy
+
+    worker:
+      build:
+        context: .
+        dockerfile: worker/Dockerfile
+      environment:
+        DATABASE_URL: postgresql://postgres:1234@postgres:5432/forge
+        REDIS_URL: redis://redis:6379
+      volumes:
+        - forge-data:/app/data
+      depends_on:
+        postgres:
+          condition: service_healthy
+        redis:
+          condition: service_healthy
+
+volumes:
+  pgdata:
+  forge-data:
